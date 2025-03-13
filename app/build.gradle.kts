@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.maitreyasave.fetchrewardscodingexercise"
-        minSdk = 29
+        minSdk = 30
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -69,11 +69,22 @@ dependencies {
 
     implementation(libs.accompanist.systemuicontroller)
 
+    // Testing
     testImplementation(libs.junit)
+
+    // OkHttp and MockWebServer
+    testImplementation(libs.okhttp)
+    testImplementation(libs.mockwebserver.v500alpha2)
+
+    // Coroutines dependencies for testing
+    testImplementation(libs.kotlinx.coroutines.test.v173)
+    testImplementation(libs.mockk)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    testImplementation(kotlin("test"))
 }

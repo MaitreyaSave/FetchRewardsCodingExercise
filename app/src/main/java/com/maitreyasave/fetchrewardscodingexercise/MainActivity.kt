@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -35,15 +36,19 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModelProvider
 import com.maitreyasave.fetchrewardscodingexercise.data.Item
 import com.maitreyasave.fetchrewardscodingexercise.data.ItemViewModel
+import com.maitreyasave.fetchrewardscodingexercise.data.ItemViewModelFactory
+import com.maitreyasave.fetchrewardscodingexercise.services.ItemRepositoryImpl
+import com.maitreyasave.fetchrewardscodingexercise.services.RetrofitClient
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AppContent()
+            val repository = ItemRepositoryImpl(RetrofitClient.api) // Use real implementation
+            val viewModel: ItemViewModel by viewModels { ItemViewModelFactory(repository) }
+            AppContent(viewModel)
         }
     }
 }
@@ -52,7 +57,7 @@ class MainActivity : ComponentActivity() {
 // Composable UI
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppContent(viewModel: ItemViewModel = ViewModelProvider.NewInstanceFactory().create(ItemViewModel::class.java)) {
+fun AppContent(viewModel: ItemViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
